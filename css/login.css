@@ -1,0 +1,147 @@
+/* Estilos generales */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d1e8c4; /* Fondo de la página con tono verde suave */
+}
+
+/* Contenedor del formulario centrado */
+.login-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos del formulario con bordes y colores relacionados con la agricultura */
+.form-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    border: 4px solid #7a8d56; /* Borde con color verde terroso */
+    background: linear-gradient(135deg, #f0e68c, #b4d07e); /* Fondo amarillo-verde relacionado con la naturaleza */
+}
+
+/* Encabezado */
+h1 {
+    text-align: center;
+    font-size: 28px; /* Tamaño de fuente más grande */
+    color: #3d550c; /* Verde oscuro, relacionado con la agricultura */
+    margin-bottom: 20px;
+}
+
+/* Estilos de los campos de formulario */
+.form-group {
+    margin-bottom: 25px; /* Mayor separación entre los campos */
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+
+.form-control {
+    padding: 20px; /* Aumenta el padding para hacerlo más alto */
+    height: 30px;  /* Establecer una altura fija */
+    font-size: 18px; /* Aumenta el tamaño de la fuente */
+    border: 2px solid #8c9e49; /* Borde visible */
+    border-radius: 15px; /* Bordes redondeados */
+    background-color: #f7f8e0; /* Fondo suave */
+    box-sizing: border-box; /* Asegura que el padding se incluya en el tamaño total */
+    transition: all 0.3s ease; /* Transición suave para los cambios */
+}
+
+/* Enfoque de los inputs */
+.form-control:focus {
+    border-color: #7a8d56; /* Verde terroso para el borde en foco */
+    outline: none;
+    box-shadow: 0 0 8px rgba(122, 141, 86, 0.5); /* Sombra sutil */
+}
+
+/* Inputs de usuario y contraseña más altos y contorno más redondeado */
+.input[type="text"],
+.input[type="password"] {
+    width: 100%;
+    padding: 20px; /* Aumenta el padding para hacerlo más alto */
+    font-size: 18px; /* Aumenta el tamaño de la fuente */
+    height: 60px; /* Establecer una altura explícita para los campos */
+    border: 2px solid #8c9e49; /* Borde visible */
+    border-radius: 15px; /* Bordes redondeados */
+    background-color: #f7f8e0; /* Fondo color suave similar al arroz */
+    box-sizing: border-box; /* Asegura que el padding se incluya en el tamaño total */
+    transition: all 0.3s ease; /* Transición suave para los cambios */
+}
+
+/* Enfoque de los inputs */
+.input[type="text"]:focus,
+.input[type="password"]:focus {
+    border-color: #7a8d56; /* Verde terroso para el borde en foco */
+    outline: none;
+    box-shadow: 0 0 8px rgba(122, 141, 86, 0.5); /* Sombra sutil para resaltar el campo en foco */
+}
+
+
+/* Estilo del botón */
+.btn {
+    width: 100%;
+    padding: 15px; /* Botón más grande */
+    background-color: #7a8d56; /* Verde terroso */
+    color: white;
+    border: none;
+    border-radius: 15px; /* Bordes redondeados en el botón */
+    font-size: 18px; /* Aumentar el tamaño de la fuente del botón */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transición suave en hover */
+}
+
+.btn:hover {
+    background-color: #5e7041; /* Tonalidad más oscura de verde */
+}
+
+/* Estilos para mensajes */
+.mensaje {
+    display: none;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .input[type="text"],
+    .input[type="password"],
+    .btn {
+        font-size: 16px; /* Tamaño de fuente más pequeño en pantallas pequeñas */
+    }
+}
+
+@media (max-width: 480px) {
+    .form-container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}

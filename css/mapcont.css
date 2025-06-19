@@ -1,0 +1,112 @@
+/*estilo div graficas*/
+.grafico-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Aumento el tamaño mínimo de las gráficas */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Estilo para el contenedor principal de la primera gráfica */
+.grafico-containers {
+    display: flex;
+    justify-content: center; /* Centra el gráfico horizontalmente */
+    align-items: center;     /* Centra el gráfico verticalmente */
+    width: 90%;
+    margin-bottom: 80px; /* Espacio entre el primer gráfico y el resto */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+/* Estilo para los elementos de los gráficos */
+.grafico-item {
+    max-width: 90%; /* Limita el tamaño máximo */
+    width: 600px;   /* Puedes ajustar el tamaño según necesites */
+    height: 400px;  /* Ajusta el tamaño del canvas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+  
+/* Estilo para los contenedores de las siguientes gráficas */
+.grafico-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px; /* Limita el tamaño máximo del contenedor */
+    margin-bottom: 40px;
+}
+
+/* Estilo para las tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    max-width: 1200px;
+    margin-bottom: 40px;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+/* Estilo para el título y el párrafo */
+h3 {
+    margin-top: 20px;
+    text-align: center;
+}
+  
+#prediction {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+
+
+
+/*contenedor de temperatura*/
+/* Estilo para los contenedores de las siguientes gráficas */
+
+
+.grafico-itemm {
+    display: flex;
+    flex-direction: column; /* Apilar los elementos verticalmente */
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px;
+    border: 2px solid #3498db;
+    background-color: #f0f8ff;
+    margin: 0 auto;
+}
+
+.grafico-itemm .section {
+    width: 50%; /* Asegura que cada sección ocupe todo el ancho disponible */
+    margin-bottom: 15px; /* Espacio entre las dos secciones */
+}
+
+.grafico-itemm h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.temp {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.desc {
+    font-size: 16px;
+    color: gray;
+}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/script.js" defer></script>
+    <link rel="stylesheet" href="css/login.css">
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Iniciar Sesión</h1>
+            <div id="mensaje" class="mensaje"></div> <!-- Aquí se mostrará el mensaje -->
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="usuario">Usuario o correo:</label>
+                    <input type="text" id="usuario" name="usuario" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="clave">Clave:</label>
+                    <input type="password" id="clave" name="clave" class="form-control" required>
+                </div>
+                <input type="submit" value="Iniciar sesión" class="btn">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evitar recargar la página
+            
+            let formData = new FormData(this);
+
+            fetch("php/iniciar_sesion.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                let mensajeDiv = document.getElementById("mensaje");
+                mensajeDiv.textContent = data.message;
+                mensajeDiv.style.display = "block";
+                
+                if (data.success) {
+                    mensajeDiv.style.color = "green";
+
+                    // Esperar 3 segundos y redirigir a ventas.php
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 3000);
+                } else {
+                    mensajeDiv.style.color = "red";
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+
+
+</body>
+</html>

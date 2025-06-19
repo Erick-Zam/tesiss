@@ -1,0 +1,55 @@
+
+
+/* Contenedor para la tarjeta */
+.session-card-wrapper {
+    position: fixed; /* Lo fija en la pantalla */
+    top: 5px; /* Un poco de espacio desde la parte superior */
+    left: 10px; /* Un poco de espacio desde la parte izquierda */
+    z-index: 100; /* Asegura que el card se muestre por encima de otros elementos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo del card */
+.session-card {
+    display: flex;
+    flex-direction: column; /* Orden vertical: logo, mensaje, botón */
+    align-items: center;
+    background-color: #333;
+    border-radius: 10px; /* Bordes más redondeados */
+    padding: 5px 10px; /* Menos padding para hacerlo más pequeño */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 120px; /* Reducir el tamaño del card */
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Estilo para el logo */
+.session-card-logo img {
+    border-radius: 50%;
+    margin-bottom: 5px; /* Menos espacio entre el logo y el mensaje */
+}
+
+/* Estilo del mensaje de bienvenida */
+.session-card-info .welcome-message {
+    font-size: 12px; /* Reducir el tamaño del texto */
+    color: #fff;
+    margin-bottom: 4px; /* Menos espacio entre el mensaje y el botón */
+}
+
+/* Estilo del botón de cerrar sesión */
+.logout-button {
+    background-color: #f44336; /* Rojo */
+    color: white;
+    padding: 4px 8px; /* Botón más pequeño */
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 9px; /* Texto más pequeño */
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto al pasar el mouse sobre el botón */
+.logout-button:hover {
+    background-color: #d32f2f;
+}

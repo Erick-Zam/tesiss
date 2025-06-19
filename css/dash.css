@@ -1,0 +1,171 @@
+/* Asegurar que el body y html ocupen todo el espacio */
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita el desplazamiento horizontal */
+    box-sizing: border-box;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos del slider */
+.slider {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+.slides {
+    display: flex;
+    width: 300vw;
+    height: 100%;
+    transition: transform 1s ease-in-out;
+}
+.slide {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+}
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .slider {
+        height: 50vh; /* Reducimos la altura del slider en pantallas pequeñas */
+    }
+
+    .slides {
+        width: 300%; /* Cada imagen sigue ocupando 100% del ancho en dispositivos móviles */
+    }
+
+    .slide {
+        width: 100%; /* Cada slide ocupa el 100% del ancho */
+        height: 50vh; /* Ajustamos la altura a 50vh en dispositivos móviles */
+    }
+
+    .slide img {
+        object-fit: contain; /* Las imágenes no se recortan en dispositivos pequeños */
+    }
+}
+
+/* Estilos del mapa y contenedores */
+#map {
+    height: 500px;
+    width: 100%;
+}
+.container {
+    margin-top: 60px;
+}
+.info-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+
+
+/* Estilos del Header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+/* Navegación */
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: right;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+}
+
+nav ul li a.active {
+    background-color: #007bff;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 10px;
+    min-width: 200px;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    #map, .info-container {
+        width: 100%;
+    }
+    .info-container {
+        margin-top: 20px;
+    }
+}
+

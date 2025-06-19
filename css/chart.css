@@ -1,0 +1,357 @@
+/* Asegurar que el body y html ocupen todo el espacio */
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita el desplazamiento horizontal */
+    box-sizing: border-box;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos del Header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+/* Navegación */
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: right;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+}
+
+nav ul li a.active {
+    background-color: #007bff;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 10px;
+    min-width: 200px;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+/* Contenedor principal */
+main {
+    padding: 20px;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* --------------------------
+   CONTENEDOR DE GRÁFICOS Y TABLA
+   -------------------------- */
+.grafico-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Gráfico */
+.grafico-item {
+    flex: 1;
+    min-width: 400px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f8ff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tabla */
+.grafico-item-table {
+    flex: 1;
+    min-width: 300px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+}
+
+table td {
+    background-color: #f9f9f9;
+}
+
+/* Efecto Hover en la tabla */
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* --------------------------
+   CONTENEDOR DE CLIMA
+   -------------------------- */
+.weather-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Azul oscuro con transparencia */
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenedor izquierdo (descripción del clima) */
+.weather-left {
+    width: 65%;
+    padding: 20px;
+}
+
+.section h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.temp {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.desc {
+    font-size: 10px;
+}
+
+/* Tarjeta del clima (derecha) */
+.grafico-itemm {
+    width: 200px;
+    height: 200px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.grafico-itemm .section {
+    width: 100%;
+}
+
+
+
+/* Estilo para el contenedor de las gráficas */
+.chart-container {
+    width: 100%;
+    max-width: 600px; /* Para que no se haga más grande de lo necesario */
+    margin: 20px auto;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Asegura que las gráficas no se amplíen indefinidamente */
+canvas {
+    width: 100% !important;  /* Ajusta el ancho al 100% del contenedor */
+    height: 250px !important; /* Limita la altura de la gráfica */
+}
+
+
+/* --------------------------
+   RESPONSIVE DESIGN
+   -------------------------- */
+   @media (max-width: 1024px) {
+    .grafico-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .grafico-item, .grafico-item-table {
+        width: 90%;
+    }
+
+    .weather-info-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .weather-left {
+        width: 100%;
+    }
+
+    .grafico-itemm {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Ajustar el menú de navegación */
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+
+    /* Reorganizar el contenido principal */
+    .grafico-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    /* Gráfico y tabla a ancho completo */
+    .grafico-item,
+    .grafico-item-table {
+        width: 100%;
+        min-width: unset;
+        height: auto;
+    }
+
+    /* Ajustar el contenedor del clima */
+    .weather-info-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .weather-left {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* Redimensionar la tarjeta del clima */
+    .grafico-itemm {
+        width: 160px;
+        height: 160px;
+        margin-top: 15px;
+    }
+
+    /* Ajustar el footer */
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
+
+    .grafico-item, .grafico-item-table {
+        width: 100%;
+    }
+
+    .weather-info-container {
+        padding: 15px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+

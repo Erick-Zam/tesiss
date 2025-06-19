@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/dash.css">
+    <title>Dashboard Interactivo</title>
+   
+</head>
+
+<body>
+    <script src="js/script.js"></script>
+    <script>
+        // Agregar el header
+        document.body.prepend(Components.createHeader());
+    </script>
+
+
+    <div class="main-container">
+        <div class="card">
+                <h2>Video Destacado</h2>
+                <div class="iframe-container">
+                    <iframe title="Luis C" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiYTMwNGZlYTEtNTc5YS00OGFhLWJkY2EtM2VlZGYxZmJjNzRjIiwidCI6IjU5NzEzZmVjLTQ3NjgtNDU4Zi04OTE2LTcxMzFmN2IyYWM4MyJ9" frameborder="0" allowFullScreen="true"></iframe>
+                </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        let index = 0;
+        const slides = document.querySelector(".slides");
+        const totalSlides = document.querySelectorAll(".slide").length;
+        
+        function moveSlide() {
+            index = (index + 1) % totalSlides;
+            slides.style.transform = `translateX(-${index * 100}vw)`;
+        }
+        setInterval(moveSlide, 3000);
+    </script>
+    <script>
+         // Agregar el footer
+         document.body.append(Components.createFooter());
+    </script>
+</body>
+</html>
+
+

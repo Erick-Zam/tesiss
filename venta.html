@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/stilo.css">
+    <script src="js/script.js" defer></script>
+    <title>Ventas</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Ventas</h1>
+        <?php
+        session_start();
+        if (isset($_SESSION['nombre'])) {
+            echo "<p>Bienvenido, " . $_SESSION['nombre'] . "</p>";
+            echo "<a href='php/cerrar_sesion.php'>Cerrar sesión</a>";
+        } else {
+            echo "<p>Por favor, inicie sesión para acceder a esta página.</p>";
+        }
+        ?>
+        <p>Aquí puedes gestionar tus ventas.</p>
+    </div>
+</body>
+</html>
