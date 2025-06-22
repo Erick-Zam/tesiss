@@ -1,14 +1,9 @@
 <?php
-$servername = "fdb1030.awardspace.net";
-$username = "4550502_prueba";
-$password = "Hosting28147*";
-$dbname = "4550502_prueba";
+// Incluye la configuración centralizada
+require_once __DIR__ . '/../config.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die(json_encode(["success" => false, "message" => "Error de conexión"]));
-}
+// Obtener conexión usando la función centralizada
+$conn = getConnection();
 
 $sql = "SELECT id, usuario, correo, telefono, cantidad_adquirida_anual, latitud, longitud FROM proveedores WHERE latitud IS NOT NULL AND longitud IS NOT NULL";
 $result = $conn->query($sql);
@@ -24,4 +19,3 @@ if ($result->num_rows > 0) {
 echo json_encode(["success" => true, "usuarios" => $usuarios]);
 
 $conn->close();
-?>

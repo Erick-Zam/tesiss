@@ -8,9 +8,9 @@ app = Flask(__name__)
 
 # Configuración de la base de datos
 DB_CONFIG = {
-    'host': 'fdb1030.awardspace.net',
-    'user': '4550502_prueba',
-    'password': 'Hosting28147*',
+    'host': 'localhost',
+    'user': 'erick',
+    'password': 'Evimu997261',
     'database': '4550502_prueba'
 }
 

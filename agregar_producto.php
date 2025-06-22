@@ -1,4 +1,4 @@
-<?php 
+<?php
 include 'conexion.php';
 
 // Recoger los datos del formulario
@@ -10,7 +10,7 @@ $fecha_cosecha = $_POST['fecha_cosecha'];
 $fecha_envio = $_POST['fecha_envio'];
 $lote = $_POST['lote'];
 
-// SQL para insertar el nuevo producto
+// SQL para insertar el nuevo producto en detalle_producto
 $sql = "INSERT INTO detalle_producto (cantidad, precio, tipo, proveedor_id, fecha_cosecha, fecha_envio, lote) 
         VALUES ('$cantidad', '$precio', '$tipo', '$proveedor_id', '$fecha_cosecha', '$fecha_envio', '$lote')";
 
@@ -19,4 +19,3 @@ if ($conn->query($sql) === TRUE) {
 } else {
     echo "Error al agregar: " . $conn->error;
 }
-?>

@@ -1,17 +1,9 @@
 <?php
-// Datos de conexión a la base de datos
-$servername = "fdb1030.awardspace.net";
-$username = "4550502_prueba";
-$password = "Hosting28147*";
-$dbname = "4550502_prueba";
+// Incluye la configuración centralizada
+require_once __DIR__ . '/../config.php';
 
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
+// Obtener conexión usando la función centralizada
+$conn = getConnection();
 
 // Verificar si se recibieron los datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -49,4 +41,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Cerrar la conexión
 $conn->close();
-?>

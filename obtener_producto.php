@@ -6,9 +6,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = $_GET['id'];
 
     // Escapar el valor de $id para prevenir inyecciones SQL
-    $id = $conn->real_escape_string($id);
-
-    // Realizar la consulta
+    $id = $conn->real_escape_string($id);    // Realizar la consulta
     $sql = "SELECT id, cantidad, precio, tipo, fecha_cosecha, fecha_envio, lote FROM detalle_producto WHERE id = $id";
     $result = $conn->query($sql);
 
@@ -23,4 +21,3 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     // Si no se pasa un 'id' válido, enviar un mensaje de error
     echo json_encode(["error" => "ID no proporcionado o inválido"]);
 }
-?>

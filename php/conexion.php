@@ -1,14 +1,16 @@
 <?php
-$conexion = mysqli_connect("fdb1030.awardspace.net", "4550502_prueba", "Hosting28147*", "4550502_prueba");
+// Incluye la configuración centralizada
+require_once __DIR__ . '/../config.php';
 
-if (!$conexion) {
-    die("Error de conexión: " . mysqli_connect_error());
-} else {
-    error_log("Conexión exitosa a la base de datos.");
-}
+// Obtener conexión usando la función centralizada
+$conexion = getConnection();
 
-function cerrar_conexion() {
+// Registrar conexión exitosa
+error_log("Conexión exitosa a la base de datos.");
+
+function cerrar_conexion()
+{
     global $conexion;
-    mysqli_close($conexion);
+    closeConnection($conexion);
     return null;
 }

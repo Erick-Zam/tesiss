@@ -2,9 +2,7 @@
 include 'conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
-    $id = intval($_GET['id']);  // Convertir el ID a un número entero
-
-    // Preparar y ejecutar la consulta de eliminación
+    $id = intval($_GET['id']);  // Convertir el ID a un número entero    // Preparar y ejecutar la consulta de eliminación
     $sql = "DELETE FROM detalle_producto WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
@@ -21,4 +19,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
 }
 
 $conn->close();
-?>

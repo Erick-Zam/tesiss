@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 
 // Habilitar manejo de errores para depuración
-ini_set('display_errors', 0); // Desactivar salida de errores para no romper el JSON
+ini_set('display_errors', 1); // Activar salida de errores para depuración
 error_reporting(E_ALL); // Reportar todos los errores
 
 try {
@@ -10,33 +10,41 @@ try {
     require_once __DIR__ . '/config.php';
 
     // Obtener conexión usando la función centralizada
-    $conn = getConnection();    // Verificar si las tablas necesarias existen
-    $tabla_detalle_producto = $conn->query("SHOW TABLES LIKE 'detalle_producto'");
-    if (!$tabla_detalle_producto || $tabla_detalle_producto->num_rows == 0) {
-        throw new Exception("La tabla 'detalle_producto' no existe en la base de datos");
+    $conn = getConnection();
+
+    // Verificar si las tablas necesarias existen
+    $tabla_productos = $conn->query("SHOW TABLES LIKE 'productos'");
+    if (!$tabla_productos || $tabla_productos->num_rows == 0) {
+        throw new Exception("La tabla 'productos' no existe en la base de datos");
     }
 
-    $tabla_detalle_envio = $conn->query("SHOW TABLES LIKE 'detalle_envio'");
-    if (!$tabla_detalle_envio || $tabla_detalle_envio->num_rows == 0) {
-        throw new Exception("La tabla 'detalle_envio' no existe en la base de datos");
-    } // Consulta para obtener la cantidad de productos por mes para todos los años (para la predicción)
-    // Usando la tabla detalle_producto en lugar de productos
+    // Mostrar datos de la tabla productos
+    $debug_productos = "SELECT * FROM productos LIMIT 5";
+    $result_debug = $conn->query($debug_productos);
+
+    $productos_muestra = [];
+    if ($result_debug) {
+        while ($row = $result_debug->fetch_assoc()) {
+            $productos_muestra[] = $row;
+        }
+    }
+
+    // Consulta para obtener la cantidad de productos por mes para todos los años (para la predicción)
     $sql = "SELECT YEAR(fecha_cosecha) AS anio, MONTH(fecha_cosecha) AS mes, SUM(cantidad) AS cantidad 
-            FROM detalle_producto 
+            FROM productos 
             GROUP BY anio, mes 
             ORDER BY anio, mes";
     $result = $conn->query($sql);
     if (!$result) {
         throw new Exception("Error en la consulta SQL: " . $conn->error);
     }
+
     $data = [];
     while ($row = $result->fetch_assoc()) {
-        // Convertir datos al tipo correcto
-        $row['anio'] = (int)$row['anio'];
-        $row['mes'] = (int)$row['mes'];
-        $row['cantidad'] = (float)$row['cantidad'];
         $data[] = $row;
-    } // Consulta para obtener la cantidad de productos por mes en 2025
+    }
+
+    // Consulta para obtener la cantidad de productos por mes en 2025
     $sql_2025 = "SELECT MONTH(fecha_cosecha) AS mes, SUM(cantidad) AS cantidad 
                 FROM productos 
                 WHERE YEAR(fecha_cosecha) = 2025 
@@ -46,9 +54,10 @@ try {
     if (!$result_2025) {
         throw new Exception("Error en la consulta SQL 2025: " . $conn->error);
     }
+
     $data_2025 = [];
     while ($row_2025 = $result_2025->fetch_assoc()) {
-        // Asegurarse de que los datos son del tipo correcto para JavaScript
+        // Asegurarse de que los datos son del tipo correcto
         $row_2025['mes'] = (int)$row_2025['mes'];
         $row_2025['cantidad'] = (float)$row_2025['cantidad'];
         $data_2025[] = $row_2025;
@@ -73,10 +82,20 @@ try {
         $predictedData[2025][$mes] = $count > 0 ? round($sum / $count, 2) : 0;
     }
 
+    // Añadir información de depuración
     $response = [
+        "db_info" => [
+            "connection_successful" => true,
+            "productos_muestra" => $productos_muestra
+        ],
         "historical" => $data,
         "prediction" => $predictedData,
-        "historical_2025" => $data_2025 // Incluye los datos de 2025 en la respuesta
+        "historical_2025" => $data_2025,
+        "debug_info" => [
+            "tiene_datos_2025" => !empty($data_2025),
+            "cantidad_datos_2025" => count($data_2025),
+            "formato_2025" => is_array($data_2025) ? "array" : gettype($data_2025)
+        ]
     ];
 
     // Cerrar la conexión a la base de datos
@@ -95,5 +114,5 @@ try {
     ]);
 
     // Registrar el error en el log del servidor
-    error_log("Error en API: " . $e->getMessage());
+    error_log("Error en API Debug: " . $e->getMessage());
 }

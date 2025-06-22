@@ -19,4 +19,3 @@ if ($conn->query($sql) === TRUE) {
 } else {
     echo "Error al actualizar: " . $conn->error;
 }
-?>

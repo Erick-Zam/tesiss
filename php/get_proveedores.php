@@ -1,16 +1,9 @@
 <?php
-$servername = "fdb1030.awardspace.net";
-$username = "4550502_prueba";
-$password = "Hosting28147*";
-$dbname = "4550502_prueba";
+// Incluye la configuración centralizada
+require_once __DIR__ . '/../config.php';
 
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
+// Obtener conexión usando la función centralizada
+$conn = getConnection();
 
 // Consulta para obtener los proveedores con sus coordenadas
 $sql = "
@@ -33,7 +26,7 @@ $proveedores = array();
 
 // Verificar si se obtuvieron resultados
 if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
+    while ($row = $result->fetch_assoc()) {
         $proveedores[] = $row;
     }
 }
@@ -44,4 +37,3 @@ $conn->close();
 // Devolver los datos en formato JSON
 header('Content-Type: application/json');
 echo json_encode($proveedores);
-?>

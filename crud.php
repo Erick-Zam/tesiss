@@ -1,37 +1,67 @@
 <?php
-   session_start();
-   require_once 'conexion.php';
+// Para depuración
+ini_set('display_errors', 0); // Desactivar la salida de errores para producción
+error_reporting(E_ALL);
 
-   // Verificar si la sesión está activa, de lo contrario redirigir al login
-   if (!isset($_SESSION['idusuario'])) {
-       // Redirigir al login si no hay sesión
-       header('Location: ../login.html');
-       exit;
-   }
+session_start();
+require_once __DIR__ . '/conexion.php';
 
-// Obtener la lista de proveedores
-$sql_proveedores = "SELECT id, nombre FROM proveedores";
-$result_proveedores = $conn->query($sql_proveedores);
+// Verificar si la sesión está activa, de lo contrario redirigir al login
+if (!isset($_SESSION['idusuario'])) {
+    // Redirigir al login si no hay sesión
+    header('Location: login.html');
+    exit;
+}
 
-// Obtener la lista de todos los productos
-$sql_all = "SELECT dp.id, dp.cantidad, dp.precio, dp.tipo, dp.fecha_cosecha, dp.fecha_envio, dp.lote, p.nombre AS proveedor
-            FROM detalle_producto dp
-            LEFT JOIN proveedores p ON dp.proveedor_id = p.id";
+// Definir variable para mensajes de error
+$error_message = '';
 
-// Obtener la lista de productos del año 2025
-$sql_2025 = "SELECT dp.id, dp.cantidad, dp.precio, dp.tipo, dp.fecha_cosecha, dp.fecha_envio, dp.lote, p.nombre AS proveedor
-             FROM detalle_producto dp
-             LEFT JOIN proveedores p ON dp.proveedor_id = p.id
-             WHERE YEAR(dp.fecha_cosecha) = 2025";
+try {    // Verificar si las tablas existen
+    $tabla_proveedores = $conn->query("SHOW TABLES LIKE 'proveedores'");
+    if (!$tabla_proveedores || $tabla_proveedores->num_rows == 0) {
+        throw new Exception("La tabla 'proveedores' no existe en la base de datos");
+    }
+    $tabla_detalle_producto = $conn->query("SHOW TABLES LIKE 'detalle_producto'");
+    if (!$tabla_detalle_producto || $tabla_detalle_producto->num_rows == 0) {
+        throw new Exception("La tabla 'detalle_producto' no existe en la base de datos");
+    }
 
-$result_all = $conn->query($sql_all);
-$result_2025 = $conn->query($sql_2025);
+    // Obtener la lista de proveedores
+    $sql_proveedores = "SELECT id, nombre FROM proveedores";
+    $result_proveedores = $conn->query($sql_proveedores);
+    if (!$result_proveedores) {
+        throw new Exception("Error al consultar proveedores: " . $conn->error);
+    }    // Obtener la lista de todos los productos
+    $sql_all = "SELECT pr.id, pr.cantidad, pr.precio, pr.tipo, pr.fecha_cosecha, pr.fecha_envio, pr.lote, p.nombre AS proveedor
+                FROM detalle_producto pr
+                LEFT JOIN proveedores p ON pr.proveedor_id = p.id";
+
+    // Obtener la lista de productos del año 2025
+    $sql_2025 = "SELECT pr.id, pr.cantidad, pr.precio, pr.tipo, pr.fecha_cosecha, pr.fecha_envio, pr.lote, p.nombre AS proveedor
+                FROM detalle_producto pr
+                LEFT JOIN proveedores p ON pr.proveedor_id = p.id
+                WHERE YEAR(pr.fecha_cosecha) = 2025";
+
+    $result_all = $conn->query($sql_all);
+    if (!$result_all) {
+        throw new Exception("Error al consultar todos los productos: " . $conn->error);
+    }
+
+    $result_2025 = $conn->query($sql_2025);
+    if (!$result_2025) {
+        throw new Exception("Error al consultar productos de 2025: " . $conn->error);
+    }
+} catch (Exception $e) {
+    $error_message = "Error: " . $e->getMessage();
+    error_log("Error en crud.php: " . $e->getMessage());
+}
 // Mensaje de bienvenida
-$welcome_message = htmlspecialchars($_SESSION['nombre']);
+$welcome_message = isset($_SESSION['nombre']) ? htmlspecialchars($_SESSION['nombre']) : "Usuario";
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,8 +73,10 @@ $welcome_message = htmlspecialchars($_SESSION['nombre']);
 </head>
 <style>
     #barcodeContainer img {
-        max-width: 100%;  /* Asegura que la imagen se ajuste al contenedor */
-        height: auto;     /* Mantiene la proporción de la imagen */
+        max-width: 100%;
+        /* Asegura que la imagen se ajuste al contenedor */
+        height: auto;
+        /* Mantiene la proporción de la imagen */
     }
 </style>
 <div class="session-card-wrapper">
@@ -55,17 +87,24 @@ $welcome_message = htmlspecialchars($_SESSION['nombre']);
         <div class="session-card-info">
             <p class="welcome-message"><?php echo $welcome_message; ?></p>
             <a href="cerrar_sesion.php" class="logout-button">Cerrar sesión</a>
-        </div>
-        <!-- Botón de Cerrar sesión -->
+        </div> <!-- Botón de Cerrar sesión -->
 
     </div>
 </div>
+
 <body>
     <script src="js/script.js"></script>
     <script>
         // Agregar el header
         document.body.prepend(Components.createHeader());
     </script>
+
+    <?php if (!empty($error_message)): ?>
+        <div class="alert alert-danger mt-3" role="alert">
+            <?php echo $error_message; ?>
+        </div>
+    <?php endif; ?>
+
     <div class="contenedor-principal mt-5">
         <h2>Detalle Producto</h2>
 
@@ -90,20 +129,20 @@ $welcome_message = htmlspecialchars($_SESSION['nombre']);
                 </thead>
                 <tbody>
                     <?php while ($row = $result_all->fetch_assoc()): ?>
-                    <tr data-id="<?= $row['id'] ?>">
-                        <td><?= $row['id'] ?></td>
-                        <td><?= $row['cantidad'] ?></td>
-                        <td><?= $row['precio'] ?></td>
-                        <td><?= $row['tipo'] ?></td>
-                        <td><?= $row['fecha_cosecha'] ?></td>
-                        <td><?= $row['fecha_envio'] ?></td>
-                        <td><?= $row['lote'] ?></td>
-                        <td><?= $row['proveedor'] ?></td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="cargarEdicion(<?= $row['id'] ?>)">Modificar</button>
-                            <button class="btn btn-info btn-sm" onclick="generarCodigoBarras(<?= $row['id'] ?>)">Código de Barra</button>
-                        </td>
-                    </tr>
+                        <tr data-id="<?= $row['id'] ?>">
+                            <td><?= $row['id'] ?></td>
+                            <td><?= $row['cantidad'] ?></td>
+                            <td><?= $row['precio'] ?></td>
+                            <td><?= $row['tipo'] ?></td>
+                            <td><?= $row['fecha_cosecha'] ?></td>
+                            <td><?= $row['fecha_envio'] ?></td>
+                            <td><?= $row['lote'] ?></td>
+                            <td><?= $row['proveedor'] ?></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="cargarEdicion(<?= $row['id'] ?>)">Modificar</button>
+                                <button class="btn btn-info btn-sm" onclick="generarCodigoBarras(<?= $row['id'] ?>)">Código de Barra</button>
+                            </td>
+                        </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
@@ -127,22 +166,22 @@ $welcome_message = htmlspecialchars($_SESSION['nombre']);
                 </thead>
                 <tbody>
                     <?php while ($row = $result_2025->fetch_assoc()): ?>
-                    <tr data-id="<?= $row['id'] ?>">
-                        <td><?= $row['id'] ?></td>
-                        <td><?= $row['cantidad'] ?></td>
-                        <td><?= $row['precio'] ?></td>
-                        <td><?= $row['tipo'] ?></td>
-                        <td><?= $row['fecha_cosecha'] ?></td>
-                        <td><?= $row['fecha_envio'] ?></td>
-                        <td><?= $row['lote'] ?></td>
-                        <td><?= $row['proveedor'] ?></td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="cargarEdicion(<?= $row['id'] ?>)">Modificar</button>
-                            <button class="btn btn-info btn-sm" onclick="generarCodigoBarras(<?= $row['id'] ?>)">Código de Barra</button>
-                            <button class="btn btn-danger btn-sm" onclick="eliminarProducto(<?= $row['id'] ?>)">Eliminar</button>
+                        <tr data-id="<?= $row['id'] ?>">
+                            <td><?= $row['id'] ?></td>
+                            <td><?= $row['cantidad'] ?></td>
+                            <td><?= $row['precio'] ?></td>
+                            <td><?= $row['tipo'] ?></td>
+                            <td><?= $row['fecha_cosecha'] ?></td>
+                            <td><?= $row['fecha_envio'] ?></td>
+                            <td><?= $row['lote'] ?></td>
+                            <td><?= $row['proveedor'] ?></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="cargarEdicion(<?= $row['id'] ?>)">Modificar</button>
+                                <button class="btn btn-info btn-sm" onclick="generarCodigoBarras(<?= $row['id'] ?>)">Código de Barra</button>
+                                <button class="btn btn-danger btn-sm" onclick="eliminarProducto(<?= $row['id'] ?>)">Eliminar</button>
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                     <?php endwhile; ?>
                 </tbody>
             </table>
@@ -297,20 +336,20 @@ $welcome_message = htmlspecialchars($_SESSION['nombre']);
 
             // La URL debe incluir el ID como parte de la cadena de consulta
             fetch(`eliminar_producto.php?id=${id}`, {
-                method: 'GET',  // Asegúrate de usar 'GET' y no incluir un body
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);  // Mensaje de éxito
-                    location.reload();
-                } else {
-                    alert(data.message);  // Mensaje de error
-                }
-            })
-            .catch(error => {
-                console.error('Error al eliminar el producto:', error);
-            });
+                    method: 'GET', // Asegúrate de usar 'GET' y no incluir un body
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message); // Mensaje de éxito
+                        location.reload();
+                    } else {
+                        alert(data.message); // Mensaje de error
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al eliminar el producto:', error);
+                });
         }
 
 
@@ -393,14 +432,14 @@ $welcome_message = htmlspecialchars($_SESSION['nombre']);
             let formData = new FormData(document.getElementById('editForm'));
 
             fetch('editar_producto.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(response => {
-                alert(response);
-                location.reload();
-            });
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(response => {
+                    alert(response);
+                    location.reload();
+                });
         }
 
 
@@ -408,14 +447,14 @@ $welcome_message = htmlspecialchars($_SESSION['nombre']);
             let formData = new FormData(document.getElementById('addForm'));
 
             fetch('agregar_producto.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(response => {
-                alert(response);
-                location.reload();
-            });
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(response => {
+                    alert(response);
+                    location.reload();
+                });
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -424,4 +463,5 @@ $welcome_message = htmlspecialchars($_SESSION['nombre']);
         document.body.append(Components.createFooter());
     </script>
 </body>
+
 </html>

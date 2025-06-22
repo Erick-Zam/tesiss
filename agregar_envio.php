@@ -15,4 +15,3 @@ if ($conn->query($sql) === TRUE) {
 } else {
     echo "Error al agregar: " . $conn->error;
 }
-?>
